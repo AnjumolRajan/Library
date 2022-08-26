@@ -1,0 +1,47 @@
+
+   <body>
+      <section class="Form">
+         <div class="container">
+            <div class="row d-flex justify-content-center pt-5 mt-5">
+               <div class="col-lg-5 mt-5">
+                  <div class="login-box">
+                     <h3 class="font-weight-bold">Login to Library</h3>
+                     <form [formGroup]="formGroup"
+                     >
+                        <div class="user-box">
+                           <input type="text" formControlName="username"  name="" required="" />
+                           <label>Username</label>
+                        </div>
+                        <div class="user-box">
+                           <input type="password" formControlName="password"  name="" required="" />
+                           <label>Password</label>
+                        </div>
+                        <div
+                           class="form-check d-flex justify-content-start mb-4">
+                           <input
+                              class="chk form-check-input"
+                              type="checkbox"
+                              value=""
+                              id="form1Example3"/>
+                           <label class="form-check-label" style="color: #3f0205;" for="form1Example3">
+                              Remember password
+                           </label>
+                           <div class="ml-4">
+                              <a href="#!">Forgot password?</a>
+                           </div>
+                        </div>
+                        <button
+                           class="btn btn-primary btn-lg btn-block" style="color: white;"
+                           type="submit" routerLink="/login"
+                        (click)="loginProcess()">
+                           Login
+                        </button>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+   </body>
+
+

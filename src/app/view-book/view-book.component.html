@@ -1,0 +1,297 @@
+
+  <div class="container-fluid" >
+    <nav class="navbar navbar-expand-lg mb-5" style=" background-color: rgb(0, 0, 136); color: white;">
+        <a class="navbar-brand mx-5" href="#" style="color: white;">Library</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#" style="color: white;">Home <span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <button class="btn my-5 my-sm-0 " style="background-color: rgb(0, 0, 136); color: white; border: 0px;" data-bs-toggle="modal" data-bs-target="#Add" >
+              <i class="fa fa-plus fa-lg m-3"></i>
+              Add Book
+            </button>
+            <button class="btn my-2 my-sm-0 mx-2" style="background-color: white; color: black;" type="submit" (click)="Logout()">Logout</button>     
+          </form>
+        </div>
+      </nav>
+        <table datatable [dtOptions]="dtOptions" class="row-border hover ">
+        <thead>
+          <tr>
+            <th>Book Title</th>
+            <th>MRP</th>
+            <th>Language</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr  *ngFor="let books of bookslist">
+            <td>{{books.bookTitle}}</td>
+            <td>{{books.mrp}}</td>
+            <td>{{books.language}}</td>
+            <td>{{books.author}}</td>
+           <td>{{books.publisher}}</td>
+           <td>
+            <i data-bs-toggle="modal" data-bs-target="#Edit" 
+           class="fa fa-edit fa-lg" (click)="BookEdit(books)"></i>
+          <i data-bs-toggle="modal" data-bs-target="#delete"
+           class="fa fa-trash fa-lg m-3"data-bs-toggle="modal" 
+           data-bs-target="#delete"(click)="BooksDelete(books)">
+          </i>
+         </td>
+        </tr>  
+        </tbody>
+      </table>
+  </div>
+
+  <div class="col-12 p-3 d-flex justify-content-end">
+    <!-- <button type="button" class="btn btn-success me-4" data-bs-toggle="modal" data-bs-target="#myModal">Add Book</button> -->
+    <div class="modal" id="delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                <p>Do you want to delete?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deletesuccess"
+                    (click)="BooksDeleteapi()">
+                     OK</button>
+                    <button type="submit" id="cancel" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 p-3 d-flex justify-content-end">
+  <!-- <button type="button" class="btn btn-success me-4" data-bs-toggle="modal" data-bs-target="#myModal">Add Book</button> -->
+  <div class="modal" id="deletesuccess">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Delete Book</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+              <p>Deleted Successfully</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+             </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="col-12 p-3 d-flex justify-content-end">
+  <!-- <button type="button" class="btn btn-success me-4" data-bs-toggle="modal" data-bs-target="#myModal">Add Book</button> -->
+  <div class="modal" id="Edit">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Edit Book</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <form  [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+                  <div class="mb-3">
+                      <label class="form-label required">Title</label>
+                      <input type="text" formControlName="bookTitle" class="form-control">
+                      <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.bookTitle.errors ">Please Enter the Title</small> -->
+                    </div>
+<!-- 
+                  <div class="mb-3">
+                    <label class="form-label required">Language</label>
+                    <input type="text" formControlName="language"   class="form-control">
+                    <small class="text-danger" *ngIf="submitted && formGroup.controls.language.errors ">Please Enter the Language</small>
+                </div> -->
+                <div class="mb-3">  
+                  <label class="form-label required">Language</label>  
+                      <select class="form-control" formControlName="language_Id">  
+                            <option value="0">--Select--</option>  
+                            <option value="language_Id" *ngFor="let lang of languagelist"
+                              value={{lang.language_Id}}>  
+                                  {{lang.language}}  
+                            </option>              
+                        </select>  
+                </div>
+                <div class="mb-3">
+                  <label class="form-label required">MRP</label>
+                  <input type="text" formControlName="mrp"   class="form-control">
+                  <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.mrp.errors ">Please Enter the MRP</small> -->
+              </div>
+              <!-- <div class="mb-3">
+                <label class="form-label required">Publisher Name</label>
+                <input type="text" formControlName="publisher"  class="form-control">
+                <small class="text-danger" *ngIf="submitted && formGroup.controls.publisherId.errors ">Please Enter the Publisher</small>
+            </div> -->
+
+            <div class="mb-3">  
+              <label class="form-label required">Publisher</label>  
+                  <select class="form-control" formControlName="PublisherId">  
+                        <option value="0">--Select--</option>  
+                        <option value="PublisherId" *ngFor="let Publisher of PublishersList"
+                          value={{Publisher.publisher_id}}>  
+                              {{Publisher.publisherName}}  
+                        </option>              
+                    </select>  
+              </div> 
+            <div class="mb-3">
+              <label class="form-label required">Publisher Date</label>
+              <input type="date" formControlName="publisherDate"  class="form-control">
+              <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.publisherDate.errors ">Please Enter the Date</small> -->
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label required">Volume</label>
+              <input type="text" formControlName="volume"  class="form-control">
+              <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.volume.errors ">Please Enter the Volume</small> -->
+            </div>
+            <div class="mb-3">
+              <label class="form-label required">Status</label>
+              <input type="text" formControlName="status"  class="form-control">
+              <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.status.errors ">Please Enter the Status</small> -->
+            </div>
+            
+              <!-- <div class="mb-3">
+                      <label class="form-label required">Author Name</label>
+                      <input type="text" formControlName="author"  class="form-control">
+                      <div *ngIf="formGroup.controls['author'].invalid && (formGroup.controls['author'].dirty || formGroup.controls['author'].touched)" class="alert">
+                        <div>
+                        Please enter Author Name
+                      </div>
+                    </div>
+              </div>                 -->
+              <div class="mb-3">  
+                <label class="form-label required">Author</label>  
+                    <select class="form-control " formControlName="AuthorId" >  
+                          <option value="0">--Select--</option>  
+                          <option  value="AuthorId" *ngFor="let Author of AuthorsList"
+                            value={{Author.author_Id}}>  
+                                {{Author.authorName}}  
+                          </option>              
+                      </select>  
+                </div>    
+              </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" (click)="BookUpdate()">Update</button>
+                  <button type="submit" id="cancel" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="col-12 p-3 d-flex justify-content-end">
+  <!-- <button type="button" class="btn btn-success me-4" data-bs-toggle="modal" data-bs-target="#myModal">Add Book</button> -->
+  <div class="modal" id="Add">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Add Book</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                  <form  [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+                      <div class="mb-3">
+                          <label class="form-label required">Title</label>
+                          <input type="text" formControlName="bookTitle" class="form-control">
+                          <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.bookTitle.errors ">Please Enter the Title</small> -->
+                        </div>
+<!-- 
+                      <div class="mb-3">
+                        <label class="form-label required">Language</label>
+                        <input type="text" formControlName="language"   class="form-control">
+                        <small class="text-danger" *ngIf="submitted && formGroup.controls.language.errors ">Please Enter the Language</small>
+                    </div> -->
+                    <div class="mb-3">  
+                      <label class="form-label required">Language</label>  
+                          <select class="form-control" formControlName="Language_Id">  
+                                <option value="0">--Select--</option>  
+                                <option value="Language_Id" *ngFor="let lang of languagelist"
+                                  value={{lang.language_id}}>  
+                                      {{lang.language}}  
+                                </option>              
+                            </select>  
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label required">MRP</label>
+                      <input type="text" formControlName="mrp"   class="form-control">
+                      <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.mrp.errors ">Please Enter the MRP</small> -->
+                  </div>
+                  <!-- <div class="mb-3">
+                    <label class="form-label required">Publisher Name</label>
+                    <input type="text" formControlName="publisher"  class="form-control">
+                    <small class="text-danger" *ngIf="submitted && formGroup.controls.publisherId.errors ">Please Enter the Publisher</small>
+                </div> -->
+
+                <div class="mb-3">  
+                  <label class="form-label required">Publisher</label>  
+                      <select class="form-control" formControlName="PublisherId">  
+                            <option value="0">--Select--</option>  
+                            <option value="PublisherId" *ngFor="let Publisher of PublishersList"
+                              value={{Publisher.publisher_id}}>  
+                                  {{Publisher.publisherName}}  
+                            </option>              
+                        </select>  
+                  </div> 
+                <div class="mb-3">
+                  <label class="form-label required">Publisher Date</label>
+                  <input type="date" formControlName="publisherDate"  class="form-control">
+                  <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.publisherDate.errors ">Please Enter the Date</small> -->
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label required">Volume</label>
+                  <input type="text" formControlName="volume"  class="form-control">
+                  <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.volume.errors ">Please Enter the Volume</small> -->
+                </div>
+                <div class="mb-3">
+                  <label class="form-label required">Status</label>
+                  <input type="text" formControlName="status"  class="form-control">
+                  <!-- <small class="text-danger" *ngIf="submitted && formGroup.controls.status.errors ">Please Enter the Status</small> -->
+                </div>
+                
+                  <!-- <div class="mb-3">
+                          <label class="form-label required">Author Name</label>
+                          <input type="text" formControlName="author"  class="form-control">
+                          <div *ngIf="formGroup.controls['author'].invalid && (formGroup.controls['author'].dirty || formGroup.controls['author'].touched)" class="alert">
+                            <div>
+                            Please enter Author Name
+                          </div>
+                        </div>
+                  </div>                 -->
+                  <div class="mb-3">  
+                    <label class="form-label required">Author</label>  
+                        <select class="form-control " formControlName="AuthorId" >  
+                              <option value="0">--Select--</option>  
+                              <option  value="AuthorId" *ngFor="let Author of AuthorsList"
+                                value={{Author.author_Id}}>  
+                                    {{Author.authorName}}  
+                              </option>              
+                          </select>  
+                    </div>    
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" (click)="BookAdd()">Add</button>
+                  <button type="submit" id="cancel" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
